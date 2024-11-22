@@ -12,7 +12,7 @@ Para usar o `useObserveChanges`, basta importar o hook no seu componente:
 
 ```typescript
 import React from 'react';
-import useObserveChanges from './hooks/useObserveChanges';
+import useObserveChanges from 'react-use-observe-changes';
 
 const MyComponent = () => {
     const { observedFields, observeIt } = useObserveChanges();
