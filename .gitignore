@@ -139,3 +139,5 @@ dist/
 # IDEs
 .vscode/
 .idea/dist/tsconfig.tsbuildinfo
+
+.npmrc
