@@ -1,0 +1,28 @@
+name: Sync NPM Release with GitHub
+
+on:
+  push:
+    tags:
+      - 'v*' # Dispara o workflow quando uma nova tag for criada
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ github.ref_name }}
+          release_name: ${{ github.ref_name }}
+          body: "Published version ${{ github.ref_name }} on NPM."
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.NPM_SECRET }}
