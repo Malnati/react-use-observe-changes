@@ -1,0 +1,50 @@
+{
+    "name": "useObserveChanges",
+    "version": "1.0.0",
+    "description": "The useObserveChanges is a custom React hook that observes changes in specific fields and updates the observed state. It is useful for tracking and managing the state of multiple fields in a React component efficiently.",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "files": [
+        "dist/**/*"
+    ],
+    "scripts": {
+        "build": "tsc",
+        "prepare": "npm run build"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Malnati/useObserveChanges.git"
+    },
+    "publishConfig": {
+        "registry": "https://npm.pkg.github.com/"
+    },
+    "keywords": [
+        "React",
+        "TypeScript",
+        "Node",
+        "hooks",
+        "hook"
+    ],
+    "author": "Ricardo Malnati",
+    "license": "MIT",
+    "dependencies": {
+        "react": "^18.3.0",
+        "react-dom": "^18.3.0"
+    },
+    "devDependencies": {
+        "@testing-library/dom": "^10.4.0",
+        "@testing-library/react": "^16.0.0",
+        "@types/node": "^20.10.7",
+        "@types/react": "^18.3.3",
+        "@types/react-dom": "^18.3.0",
+        "@typescript-eslint/eslint-plugin": "^5.60.1",
+        "@typescript-eslint/parser": "^5.60.1",
+        "eslint": "^8.43.0",
+        "eslint-config-prettier": "^8.8.0",
+        "eslint-plugin-react": "^7.32.2",
+        "eslint-plugin-react-hooks": "^4.6.0",
+        "jsdom": "^24.1.1",
+        "prettier": "^3.3.3",
+        "typescript": "^5.1.6"
+    }
+}
