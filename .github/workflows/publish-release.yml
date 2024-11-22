@@ -25,4 +25,4 @@ jobs:
           draft: false
           prerelease: false
         env:
-          GITHUB_TOKEN: ${{ secrets.NPM_SECRET }}
+          GITHUB_TOKEN: ${{ secrets.NPM_USE_OBSERVE_CHANGES }}
