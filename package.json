@@ -13,7 +13,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/Malnati/useObserveChanges.git"
+        "url": "git+https://github.com/Malnati/useObserveChanges.git"
     },
     "publishConfig": {
         "registry": "https://npm.pkg.github.com/"
