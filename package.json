@@ -1,6 +1,6 @@
 {
     "name": "react-use-observe-changes",
-    "version": "1.0.3",
+    "version": "2.0.0",
     "description": "The useObserveChanges is a custom React hook that observes changes in specific fields and updates the observed state. It is useful for tracking and managing the state of multiple fields in a React component efficiently.",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
