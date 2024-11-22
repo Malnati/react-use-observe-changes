@@ -16,7 +16,7 @@
         "url": "git+https://github.com/Malnati/useObserveChanges.git"
     },
     "publishConfig": {
-        "registry": "https://npm.pkg.github.com/"
+        "registry": "https://registry.npmjs.org/"
     },
     "keywords": [
         "React",
