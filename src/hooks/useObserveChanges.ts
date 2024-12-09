@@ -86,7 +86,7 @@ const useObserveChanges = () => {
      * setInstance({ fieldName: {} });
      * console.log(instance); // { fieldName: {} }
      */
-    const [instance, setInstance] = useState<{ [key: string]: {} }>({});
+    const [instance, setInstance] = useState<{ [key: string]: { [key: string]: any } }>({});
 
     /**
      * Function to observe changes in a field.
