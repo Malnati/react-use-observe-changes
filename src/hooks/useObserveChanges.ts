@@ -12,8 +12,11 @@ import { useState } from 'react';
  * @returns An object containing:
  * - `fields`: The state of the observed fields.
  * - `observeField`: Function to observe changes in a field.
+ * - `unobserveField`: Function to stop observing a field.
  * - `instance`: The state of the observed instance fields.
  * - `observeInstance`: Function to observe changes in an instance field.
+ * - `observeFieldOf`: Function to observe changes in a field of an instance.
+ * - `unobserveFieldOf`: Function to stop observing a field of an instance.
  * - `resetFields`: Function to reset the observed fields state.
  * - `resetInstance`: Function to reset the observed instance state.
  * - `resetAll`: Function to reset both fields and instance states.
@@ -30,6 +33,9 @@ import { useState } from 'react';
  * // Access the state of the observed fields
  * console.log(fields);
  * 
+ * // Stop observing a field
+ * unobserveField('fieldName');
+ * 
  * // Reset the observed fields state
  * resetFields();
  * 
@@ -41,6 +47,9 @@ import { useState } from 'react';
  * 
  * // Access the state of the observed instance fields
  * console.log(instance);
+ * 
+ * // Stop observing a field of an instance
+ * unobserveFieldOf('instanceName', 'fieldName');
  * 
  * // Reset the observed instance state
  * resetInstance();
@@ -99,6 +108,21 @@ const useObserveChanges = () => {
         setFields(newObject);
     };
 
+    /**
+     * Function to stop observing a field.
+     * @author Ricardo Malnati
+     * 
+     * @param _key - The name of the field to stop observing.
+     * 
+     * @example
+     * // Stop observing a field
+     * unobserveField('lastName');
+     */
+    const unobserveField = (_key: string) => {
+        const { [_key]: _, ...newObject } = fields;
+        setFields(newObject);
+    };
+
    /**
      * Function to observe changes in an instance.
      * @author Ricardo Malnati
@@ -110,7 +134,7 @@ const useObserveChanges = () => {
      * // Observe changes in an instance field with a specific value from an event
      * observeInstance('lastName', e.target.value);
      */
-    const observeInstance = (_key: string, _instance: {}) => {
+    const observeInstance = (_key: string, _instance: { [key: string]: {} }) => {
         const newInstance = {
             // Spread operator to include all existing observed instances
             ...instance,
@@ -133,7 +157,7 @@ const useObserveChanges = () => {
       * observeFieldOf('myThing', 'myField', e.target.value);
       */
      const observeFieldOf = (_instance: string, _field:string, _value: any) => {
-         const oldInstance = instance[_instance];
+         const oldInstance: { [key: string]: { [key: string]: {} } } = instance[_instance];
          if (!oldInstance) throw new Error(`Instance ${_instance} not found, please create it first using observeInstance('nameOfYourInstance', {})`);
          const newInstance = {
             // Spread operator to include all existing observed fields
@@ -142,6 +166,31 @@ const useObserveChanges = () => {
             [_field]: _value
         };
         setInstance(newInstance);
+     };
+
+     /**
+      * Function to stop observing a field of an instance.
+      * @author Ricardo Malnati
+      * 
+      * @param _instance - The name of the instance.
+      * @param _field - The name of the field to stop observing.
+      * 
+      * @example
+      * // Stop observing a field of an instance
+      * unobserveFieldOf('user', 'lastName');
+      */
+     const unobserveFieldOf = (_instance: string, _field: string) => {
+        const oldInstance: { [key: string]: { [key: string]: {} } } = instance[_instance];
+        if (!oldInstance) throw new Error(`Instance ${_instance} not found, please create it first using observeInstance('nameOfYourInstance', {})`);
+        const oldField = oldInstance[_field];
+        if (!oldField) throw new Error(`Field ${_field} not found in ${_instance}, please create it first using observeFieldOf('myThing', 'myField', e.target.value)`);
+        const newObject = {
+            // Spread operator to include all existing observed fields
+            ...oldInstance,
+        }
+        // remove the field from the instance
+        delete newObject[_field];
+        setInstance(newObject);
      };
 
     /**
@@ -184,9 +233,11 @@ const useObserveChanges = () => {
     return {
         fields,
         observeField,
+        unobserveField,
         instance,
         observeInstance,
         observeFieldOf,
+        unobserveFieldOf,
         resetFields,
         resetInstance,
         resetAll
