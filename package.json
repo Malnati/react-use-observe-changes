@@ -29,7 +29,8 @@
     "license": "MIT",
     "dependencies": {
         "react": "^18.3.0",
-        "react-dom": "^18.3.0"
+        "react-dom": "^18.3.0",
+        "winston": "^3.17.0"
     },
     "devDependencies": {
         "@testing-library/dom": "^10.4.0",

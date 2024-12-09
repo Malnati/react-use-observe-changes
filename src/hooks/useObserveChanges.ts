@@ -1,6 +1,7 @@
 // src/hooks/useObserveChanges.ts
 
 import { useState } from 'react';
+import logger from '../logger';
 
 /**
  * Hook that observes changes in fields and instances, and updates the observed state.
@@ -100,12 +101,14 @@ const useObserveChanges = () => {
      * observeField('lastName', e.target.value);
      */
     const observeField = (_key: string, _value: any) => {
+        logger.debug(`[useObserveChanges] observeField (${_key}, ${_value}) called`);
         const newObject = {
             // Spread operator to include all existing observed fields
             ...fields,
             // Add or update the field with the new value
             [_key]: _value
         };
+        logger.debug(`[useObserveChanges] observeField () setting ${newObject}`);
         setFields(newObject);
     };
 
@@ -120,8 +123,10 @@ const useObserveChanges = () => {
      * unobserveField('lastName');
      */
     const unobserveField = (_key: string) => {
-        const { [_key]: _, ...newObject } = fields;
-        setFields(newObject);
+        logger.debug(`[useObserveChanges] unobserveField (${_key}) called`);
+        delete fields[_key];
+        logger.debug(`[useObserveChanges] unobserveField () setting ${fields}`);
+        setFields(fields);
     };
 
    /**
@@ -136,12 +141,14 @@ const useObserveChanges = () => {
      * observeInstance('lastName', e.target.value);
      */
     const observeInstance = (_key: string, _instance: { [key: string]: {} }) => {
+        logger.debug(`[useObserveChanges] observeInstance (${_key}, ${_instance}) called`);
         const newInstance = {
             // Spread operator to include all existing observed instances
             ...instance,
             // Add or update the instance object with the new value
             [_key]: _instance
         };
+        logger.debug(`[useObserveChanges] observeInstance () setting ${newInstance}`);
         setInstance(newInstance);
     };
 
@@ -158,6 +165,7 @@ const useObserveChanges = () => {
       * observeFieldOf('myThing', 'myField', e.target.value);
       */
      const observeFieldOf = (_instance: string, _field:string, _value: any) => {
+        logger.debug(`[useObserveChanges] observeFieldOf (${_instance}, ${_field}, ${_value}) called`);
          const oldInstance: { [key: string]: { [key: string]: {} } } = instance[_instance];
          if (!oldInstance) throw new Error(`Instance ${_instance} not found, please create it first using observeInstance('nameOfYourInstance', {})`);
          const newInstance = {
@@ -166,6 +174,7 @@ const useObserveChanges = () => {
             // Add or update the field with the new value
             [_field]: _value
         };
+        logger.debug(`[useObserveChanges] observeFieldOf () setting ${newInstance}`);
         setInstance(newInstance);
      };
 
@@ -180,6 +189,7 @@ const useObserveChanges = () => {
       * getInstance('myThing');
       */
      const getInstance = (_instance: string): { [key: string]: { [key: string]: {} } } => {
+        logger.debug(`[useObserveChanges] getInstance (${_instance}) called`);
         const current: { [key: string]: { [key: string]: {} } } = instance[_instance];
         if (!current) console.warn(`Instance ${_instance} not found, please create it first using observeInstance('nameOfYourInstance', {})`);
         return current;
@@ -197,6 +207,7 @@ const useObserveChanges = () => {
       * unobserveFieldOf('user', 'lastName');
       */
      const unobserveFieldOf = (_instance: string, _field: string) => {
+        logger.debug(`[useObserveChanges] unobserveFieldOf (${_instance}, ${_field}) called`);
         const oldInstance: { [key: string]: { [key: string]: {} } } = instance[_instance];
         if (!oldInstance) throw new Error(`Instance ${_instance} not found, please create it first using observeInstance('nameOfYourInstance', {})`);
         const oldField = oldInstance[_field];
@@ -207,6 +218,7 @@ const useObserveChanges = () => {
         }
         // remove the field from the instance
         delete newObject[_field];
+        logger.debug(`[useObserveChanges] unobserveFieldOf () setting ${newObject}`);
         setInstance(newObject);
      };
 
@@ -219,6 +231,7 @@ const useObserveChanges = () => {
      * resetFields();
      */
     const resetFields = () => {
+        logger.debug(`[useObserveChanges] resetFields () called`);
         setFields({});
     };
 
@@ -231,6 +244,7 @@ const useObserveChanges = () => {
      * resetInstance();
      */
     const resetInstance = () => {
+        logger.debug(`[useObserveChanges] resetInstance () called`);
         setInstance({});
     };
 
@@ -243,6 +257,7 @@ const useObserveChanges = () => {
      * resetAll();
      */
     const resetAll = () => {
+        logger.debug(`[useObserveChanges] resetAll () called`);
         resetFields();
         resetInstance();
     };
