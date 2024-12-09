@@ -1,5 +1,6 @@
 // src/hooks/useObserveChanges.ts
 
+import { warn } from 'console';
 import { useState } from 'react';
 
 /**
@@ -168,6 +169,22 @@ const useObserveChanges = () => {
         setInstance(newInstance);
      };
 
+    /**
+      * Function to Retrieve an instance.
+      * @author Ricardo Malnati
+      * 
+      * @param _instance - The name of the instance field to be obtained.
+      * 
+      * @example
+      * // Retrieve an instance.
+      * getInstance('myThing');
+      */
+     const getInstance = (_instance: string) => {
+        const current: { [key: string]: { [key: string]: {} } } = instance[_instance];
+        if (!current) console.warn(`Instance ${_instance} not found, please create it first using observeInstance('nameOfYourInstance', {})`);
+        return current;
+     };
+
      /**
       * Function to stop observing a field of an instance.
       * @author Ricardo Malnati
@@ -234,7 +251,7 @@ const useObserveChanges = () => {
         fields,
         observeField,
         unobserveField,
-        instance,
+        getInstance,
         observeInstance,
         observeFieldOf,
         unobserveFieldOf,
