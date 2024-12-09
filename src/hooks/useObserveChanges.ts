@@ -80,12 +80,9 @@ const useObserveChanges = () => {
      * // Observe changes in all fields of an object.
      * observeIt(myObject);
      */
-    const observeAll = (all: any) => {
-        all?.map((item: any) => {
-            const key = item.key;
-            const value = item.value;
-            observeIt(key, value);
-        });
+    const observeAll = (all: {}) => {
+        if (all)
+            Object.entries(all).forEach(([key, value]) => observeIt(key, value));
     };
 
     return {
