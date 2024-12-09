@@ -179,7 +179,7 @@ const useObserveChanges = () => {
       * // Retrieve an instance.
       * getInstance('myThing');
       */
-     const getInstance = (_instance: string) => {
+     const getInstance = (_instance: string): { [key: string]: { [key: string]: {} } } => {
         const current: { [key: string]: { [key: string]: {} } } = instance[_instance];
         if (!current) console.warn(`Instance ${_instance} not found, please create it first using observeInstance('nameOfYourInstance', {})`);
         return current;
