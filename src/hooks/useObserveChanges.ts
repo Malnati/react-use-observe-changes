@@ -15,6 +15,7 @@ import { useState } from 'react';
  * - `observeField`: Function to observe changes in a field.
  * - `unobserveField`: Function to stop observing a field.
  * - `instance`: The state of the observed instance fields.
+ * - `getInstance`: Function to retrieve an instance.
  * - `observeInstance`: Function to observe changes in an instance field.
  * - `observeFieldOf`: Function to observe changes in a field of an instance.
  * - `unobserveFieldOf`: Function to stop observing a field of an instance.
