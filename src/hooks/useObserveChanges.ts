@@ -83,7 +83,7 @@ const useObserveChanges = () => {
      * @author Ricardo Malnati
      * 
      * @param _key - The name of the field to be observed.
-     * @param _value - The value to be observed. If it is 'on', the value will be toggled.
+     * @param _value - The value to be observed.
      * 
      * @example
      * // Observe changes in a field with a specific value from an event
@@ -104,7 +104,7 @@ const useObserveChanges = () => {
      * @author Ricardo Malnati
      * 
      * @param _key - The name of the instance field to be observed.
-     * @param _value - The value to be observed. If it is 'on', the value will be toggled.
+     * @param _value - The value to be observed.
      * 
      * @example
      * // Observe changes in an instance field with a specific value from an event
@@ -119,6 +119,30 @@ const useObserveChanges = () => {
         };
         setInstance(newInstance);
     };
+
+    /**
+      * Function to observe changes in a field of an instance.
+      * @author Ricardo Malnati
+      * 
+      * @param _instance - The name of the instance field to be observed.
+      * @param _field - The name of the field of an instance to be observed.
+      * @param _value - The value to be observed.
+      * 
+      * @example
+      * // Observe changes in an instance field with a specific value from an event
+      * observeFieldOf('myThing', 'myField', e.target.value);
+      */
+     const observeFieldOf = (_instance: string, _field:string, _value: any) => {
+         const oldInstance = instance[_instance];
+         if (!oldInstance) throw new Error(`Instance ${_instance} not found, please create it first using observeInstance('nameOfYourInstance', {})`);
+         const newInstance = {
+            // Spread operator to include all existing observed fields
+            ...instance,
+            // Add or update the field with the new value
+            [_field]: _value
+        };
+        setInstance(newInstance);
+     };
 
     /**
      * Function to reset the observed fields state.
@@ -162,6 +186,7 @@ const useObserveChanges = () => {
         observeField,
         instance,
         observeInstance,
+        observeFieldOf,
         resetFields,
         resetInstance,
         resetAll
