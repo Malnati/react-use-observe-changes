@@ -14,9 +14,12 @@ import { useState } from 'react';
  * - `observeField`: Function to observe changes in a field.
  * - `instance`: The state of the observed instance fields.
  * - `observeInstance`: Function to observe changes in an instance field.
+ * - `resetFields`: Function to reset the observed fields state.
+ * - `resetInstance`: Function to reset the observed instance state.
+ * - `resetAll`: Function to reset both fields and instance states.
  * 
  * @example
- * const { fields, observeField, instance, observeInstance } = useObserveChanges();
+ * const { fields, observeField, instance, observeInstance, resetFields, resetInstance, resetAll } = useObserveChanges();
  * 
  * // Observe changes in a field
  * observeField('fieldName', 'on');
@@ -27,6 +30,9 @@ import { useState } from 'react';
  * // Access the state of the observed fields
  * console.log(fields);
  * 
+ * // Reset the observed fields state
+ * resetFields();
+ * 
  * // Observe changes in an instance field
  * observeInstance('instanceFieldName', 'on');
  * 
@@ -35,6 +41,12 @@ import { useState } from 'react';
  * 
  * // Access the state of the observed instance fields
  * console.log(instance);
+ * 
+ * // Reset the observed instance state
+ * resetInstance();
+ * 
+ * // Reset both fields and instance states
+ * resetAll();
  */
 const useObserveChanges = () => {
 
@@ -109,44 +121,50 @@ const useObserveChanges = () => {
     };
 
     /**
-     * Hook that observes changes in fields and instances, and updates the observed state.
-     * @author Ricardo Malnati 
-     * 
-     * This hook provides functions to observe changes in specific fields and instances,
-     * and maintains a state with the observed values.
-     * 
-     * @returns An object containing:
-     * - `fields`: The state of the observed fields.
-     * - `observeField`: Function to observe changes in a field.
-     * - `instance`: The state of the observed instance fields.
-     * - `observeInstance`: Function to observe changes in an instance field.
+     * Function to reset the observed fields state.
+     * @author Ricardo Malnati
      * 
      * @example
-     * const { fields, observeField, instance, observeInstance } = useObserveChanges();
-     * 
-     * // Observe changes in a field
-     * observeField('fieldName', 'on');
-     * 
-     * // Observe changes in a field with a specific value
-     * observeField('fieldName', newValue);
-     * 
-     * // Access the state of the observed fields
-     * console.log(fields);
-     * 
-     * // Observe changes in an instance field
-     * observeInstance('instanceFieldName', 'on');
-     * 
-     * // Observe changes in an instance field with a specific value
-     * observeInstance('instanceFieldName', newValue);
-     * 
-     * // Access the state of the observed instance fields
-     * console.log(instance);
+     * // Reset the observed fields state
+     * resetFields();
      */
+    const resetFields = () => {
+        setFields({});
+    };
+
+    /**
+     * Function to reset the observed instance state.
+     * @author Ricardo Malnati
+     * 
+     * @example
+     * // Reset the observed instance state
+     * resetInstance();
+     */
+    const resetInstance = () => {
+        setInstance({});
+    };
+
+    /**
+     * Function to reset both fields and instance states.
+     * @author Ricardo Malnati
+     * 
+     * @example
+     * // Reset both fields and instance states
+     * resetAll();
+     */
+    const resetAll = () => {
+        resetFields();
+        resetInstance();
+    };
+    
     return {
         fields,
         observeField,
         instance,
-        observeInstance
+        observeInstance,
+        resetFields,
+        resetInstance,
+        resetAll
     };
 };
 
