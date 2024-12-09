@@ -59,9 +59,6 @@ const useObserveChanges = () => {
      * observeIt('lastName', e.target.value);
      */
     const observeIt = (key: string, value: any) => {
-        if (value === 'on') {
-            value = !observedFields[key];
-        }
         const newObject = {
             // Spread operator to include all existing observed fields
             ...observedFields,
