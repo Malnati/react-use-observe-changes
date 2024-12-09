@@ -3,89 +3,150 @@
 import { useState } from 'react';
 
 /**
- * Hook that observes changes in fields and updates the observed state.
+ * Hook that observes changes in fields and instances, and updates the observed state.
+ * @author Ricardo Malnati
  * 
- * This hook provides a function to observe changes in specific fields and 
- * maintains a state with the observed values.
+ * This hook provides functions to observe changes in specific fields and instances,
+ * and maintains a state with the observed values.
  * 
- * @returns An object containing the state of the observed fields and the function to observe changes.
+ * @returns An object containing:
+ * - `fields`: The state of the observed fields.
+ * - `observeField`: Function to observe changes in a field.
+ * - `instance`: The state of the observed instance fields.
+ * - `observeInstance`: Function to observe changes in an instance field.
  * 
  * @example
- * const { observedFields, observeIt } = useObserveChanges();
+ * const { fields, observeField, instance, observeInstance } = useObserveChanges();
  * 
  * // Observe changes in a field
- * observeIt('fieldName', 'on');
+ * observeField('fieldName', 'on');
  * 
  * // Observe changes in a field with a specific value
- * observeIt('fieldName', newValue);
+ * observeField('fieldName', newValue);
  * 
  * // Access the state of the observed fields
- * console.log(observedFields);
+ * console.log(fields);
+ * 
+ * // Observe changes in an instance field
+ * observeInstance('instanceFieldName', 'on');
+ * 
+ * // Observe changes in an instance field with a specific value
+ * observeInstance('instanceFieldName', newValue);
+ * 
+ * // Access the state of the observed instance fields
+ * console.log(instance);
  */
 const useObserveChanges = () => {
 
     /**
-     * State that maintains the values of the observed fields.
-     * 
-     * The state is initialized as an empty object and will store key-value pairs
-     * where the key is the name of the field being observed and the value is the
-     * observed value of that field.
-     * 
-     * @remarks
-     * - The state is stored in memory and will persist as long as the component
-     *   using this hook is mounted.
-     * - There is no explicit limit to the number of fields that can be observed,
-     *   but excessive use may impact performance.
-     * - When the component unmounts, the state will be cleared.
+     * State to hold the observed fields and their values.
+     * @author Ricardo Malnati
      * 
      * @example
      * // Initial state
-     * const [observedFields, setObservedFields] = useState<{ [key: string]: any }>({});
+     * const [fields, setFields] = useState<{ [key: string]: any }>({});
      * 
      * // After observing changes in a field
-     * observeIt('fieldName', 'newValue');
-     * console.log(observedFields); // { fieldName: 'newValue' }
+     * observeField('fieldName', 'newValue');
+     * console.log(fields); // { fieldName: 'newValue' }
      */
-    const [observedFields, setObservedFields] = useState<{ [key: string]: any }>({});
+    const [fields, setFields] = useState<{ [key: string]: any }>({});
+
+    /**
+     * State to hold the instance of the observed fields.
+     * @author Ricardo Malnati
+     * 
+     * @example
+     * // Initial state
+     * const [instance, setInstance] = useState<{ [key: string]: {} }>({});
+     * 
+     * // After setting an instance
+     * setInstance({ fieldName: {} });
+     * console.log(instance); // { fieldName: {} }
+     */
+    const [instance, setInstance] = useState<{ [key: string]: {} }>({});
 
     /**
      * Function to observe changes in a field.
+     * @author Ricardo Malnati
      * 
-     * @param key - The name of the field to be observed.
-     * @param value - The value to be observed. If it is 'on', the value will be toggled.
+     * @param _key - The name of the field to be observed.
+     * @param _value - The value to be observed. If it is 'on', the value will be toggled.
      * 
      * @example
      * // Observe changes in a field with a specific value from an event
-     * observeIt('lastName', e.target.value);
+     * observeField('lastName', e.target.value);
      */
-    const observeIt = (key: string, value: any) => {
+    const observeField = (_key: string, _value: any) => {
         const newObject = {
             // Spread operator to include all existing observed fields
-            ...observedFields,
+            ...fields,
             // Add or update the field with the new value
-            [key]: value
+            [_key]: _value
         };
-        setObservedFields(newObject);
+        setFields(newObject);
+    };
+
+   /**
+     * Function to observe changes in an instance.
+     * @author Ricardo Malnati
+     * 
+     * @param _key - The name of the instance field to be observed.
+     * @param _value - The value to be observed. If it is 'on', the value will be toggled.
+     * 
+     * @example
+     * // Observe changes in an instance field with a specific value from an event
+     * observeInstance('lastName', e.target.value);
+     */
+    const observeInstance = (_key: string, _instance: {}) => {
+        const newInstance = {
+            // Spread operator to include all existing observed instances
+            ...instance,
+            // Add or update the instance object with the new value
+            [_key]: _instance
+        };
+        setInstance(newInstance);
     };
 
     /**
-     * Function to observe changes in all fields of an object.
+     * Hook that observes changes in fields and instances, and updates the observed state.
+     * @author Ricardo Malnati 
      * 
-     * @param all - The object instance to be observed.
+     * This hook provides functions to observe changes in specific fields and instances,
+     * and maintains a state with the observed values.
+     * 
+     * @returns An object containing:
+     * - `fields`: The state of the observed fields.
+     * - `observeField`: Function to observe changes in a field.
+     * - `instance`: The state of the observed instance fields.
+     * - `observeInstance`: Function to observe changes in an instance field.
      * 
      * @example
-     * // Observe changes in all fields of an object.
-     * observeIt(myObject);
+     * const { fields, observeField, instance, observeInstance } = useObserveChanges();
+     * 
+     * // Observe changes in a field
+     * observeField('fieldName', 'on');
+     * 
+     * // Observe changes in a field with a specific value
+     * observeField('fieldName', newValue);
+     * 
+     * // Access the state of the observed fields
+     * console.log(fields);
+     * 
+     * // Observe changes in an instance field
+     * observeInstance('instanceFieldName', 'on');
+     * 
+     * // Observe changes in an instance field with a specific value
+     * observeInstance('instanceFieldName', newValue);
+     * 
+     * // Access the state of the observed instance fields
+     * console.log(instance);
      */
-    const observeAll = (all: {}) => {
-        if (all)
-            Object.entries(all).forEach(([key, value]) => observeIt(key, value));
-    };
-
     return {
-        observedFields,
-        observeAll,
-        observeIt
+        fields,
+        observeField,
+        instance,
+        observeInstance
     };
 };
 
