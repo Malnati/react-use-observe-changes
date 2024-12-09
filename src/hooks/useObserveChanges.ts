@@ -71,8 +71,26 @@ const useObserveChanges = () => {
         setObservedFields(newObject);
     };
 
+    /**
+     * Function to observe changes in all fields of an object.
+     * 
+     * @param all - The object instance to be observed.
+     * 
+     * @example
+     * // Observe changes in all fields of an object.
+     * observeIt(myObject);
+     */
+    const observeAll = (all: any) => {
+        all?.map((item: any) => {
+            const key = item.key;
+            const value = item.value;
+            observeIt(key, value);
+        });
+    };
+
     return {
         observedFields,
+        observeAll,
         observeIt
     };
 };
