@@ -64,16 +64,14 @@ const useObserveChanges = (logLevelDesc: string | undefined) => {
       * observeFieldOf('myThing', 'myField', e.target.value);
       */
      const observeFieldOf = (_instance: string, _field:string, _value: any) => {
-        const existingInstance = instance[_instance] || {}; // Recupera ou cria o objeto para a instância
-        const newInstance = {
-          ...instance, // Mantém outras instâncias intactas
+        setInstance((prevInstance) => ({
+          ...prevInstance,
           [_instance]: {
-            ...existingInstance, // Mantém outros campos dessa instância
-            [_field]: _value, // Adiciona/atualiza o campo
+              ...prevInstance[_instance],
+              [_field]: _value,
           },
-        };
-        log.debug(`[useObserveChanges] observeFieldOf (${_instance}, ${_field}, ${_value}) setting ${JSON.stringify(newInstance, null, 2)}`);
-        setInstance(newInstance);
+      }));
+      log.debug(`[useObserveChanges] observeFieldOf (${_instance}, ${_field}, ${_value}) setting ${JSON.stringify(instance, null, 2)}`);
      };
 
     /**
