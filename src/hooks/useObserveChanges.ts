@@ -11,24 +11,16 @@ import log, { LogLevelDesc } from 'loglevel';
  * and maintains a state with the observed values.
  * 
  * @returns An object containing:
- * - `instance`: The state of the observed instance fields.
  * - `getInstance`: Function to retrieve an instance.
- * - `observeInstance`: Function to observe changes in an instance field.
  * - `observeFieldOf`: Function to observe changes in a field of an instance.
  * - `unobserveFieldOf`: Function to stop observing a field of an instance.
- * - `resetInstance`: Function to reset the observed instance state.
+ * - `reset`: Function to reset the observed instance state.
  * 
  * @example
- * const { instance, observeInstance, resetInstance } = useObserveChanges();
+ * const { observeFieldOf, unobserveFieldOf, reset } = useObserveChanges();
  * 
- * // Observe changes in an instance field
- * observeInstance('instanceFieldName', 'on');
- * 
- * // Observe changes in an instance field with a specific value
- * observeInstance('instanceFieldName', newValue);
- * 
- * // Access the state of the observed instance fields
- * console.log(instance);
+ * // to observe changes in an instance field.
+ * observeFieldOf('instanceName', 'fieldName', value);
  * 
  * // Stop observing a field of an instance
  * unobserveFieldOf('instanceName', 'fieldName');
@@ -57,29 +49,6 @@ const useObserveChanges = (logLevelDesc: string | undefined) => {
      */
     const [instance, setInstance] = useState<{ [key: string]: { [key: string]: any } }>({});
 
-   /**
-     * Function to observe changes in an instance.
-     * @author Ricardo Malnati
-     * 
-     * @param _key - The name of the instance field to be observed.
-     * @param _value - The value to be observed.
-     * 
-     * @example
-     * // Observe changes in an instance field with a specific value from an event
-     * observeInstance('lastName', e.target.value);
-     */
-    const observeInstance = (_key: string, _instance: { [key: string]: {} }) => {
-        log.debug(`[useObserveChanges] observeInstance (${_key}, ${_instance}) called`);
-        const newInstance = {
-            // Spread operator to include all existing observed instances
-            ...instance,
-            // Add or update the instance object with the new value
-            [_key]: _instance
-        };
-        log.debug(`[useObserveChanges] observeInstance () setting ${JSON.stringify(newInstance, null, 2)}`);
-        setInstance(newInstance);
-    };
-
     /**
       * Function to observe changes in a field of an instance.
       * @author Ricardo Malnati
@@ -94,8 +63,6 @@ const useObserveChanges = (logLevelDesc: string | undefined) => {
       */
      const observeFieldOf = (_instance: string, _field:string, _value: any) => {
         log.debug(`[useObserveChanges] observeFieldOf (${_instance}, ${_field}, ${_value}) called`);
-         const oldInstance: { [key: string]: { [key: string]: {} } } = instance[_instance];
-         if (!oldInstance) throw new Error(`Instance ${_instance} not found, please create it first using observeInstance('nameOfYourInstance', {})`);
          const newInstance = {
             // Spread operator to include all existing observed fields
             ...instance,
@@ -119,7 +86,7 @@ const useObserveChanges = (logLevelDesc: string | undefined) => {
      const getInstance = (_instance: string): { [key: string]: { [key: string]: {} } } => {
         log.debug(`[useObserveChanges] getInstance (${_instance}) called`);
         const current: { [key: string]: { [key: string]: {} } } = instance[_instance];
-        if (!current) console.warn(`Instance ${_instance} not found, please create it first using observeInstance('nameOfYourInstance', {})`);
+        if (!current) console.warn(`Instance ${_instance} not found, please create it first using observeFieldOf('nameOfYourInstance', 'fieldName', value)`);
         return current;
      };
 
@@ -165,7 +132,6 @@ const useObserveChanges = (logLevelDesc: string | undefined) => {
     
     return {
         getInstance,
-        observeInstance,
         observeFieldOf,
         unobserveFieldOf,
         reset,
