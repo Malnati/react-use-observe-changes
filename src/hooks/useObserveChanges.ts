@@ -113,7 +113,7 @@ const useObserveChanges = (logLevelDesc: string | undefined) => {
             // Add or update the field with the new value
             [_key]: _value
         };
-        log.debug(`[useObserveChanges] observeField () setting ${newObject}`);
+        log.debug(`[useObserveChanges] observeField () setting ${JSON.stringify(newObject, null, 2)}`);
         setFields(newObject);
     };
 
@@ -130,7 +130,7 @@ const useObserveChanges = (logLevelDesc: string | undefined) => {
     const unobserveField = (_key: string) => {
         log.debug(`[useObserveChanges] unobserveField (${_key}) called`);
         delete fields[_key];
-        log.debug(`[useObserveChanges] unobserveField () setting ${fields}`);
+        log.debug(`[useObserveChanges] unobserveField () setting ${JSON.stringify(fields, null, 2)}`);
         setFields(fields);
     };
 
@@ -153,7 +153,7 @@ const useObserveChanges = (logLevelDesc: string | undefined) => {
             // Add or update the instance object with the new value
             [_key]: _instance
         };
-        log.debug(`[useObserveChanges] observeInstance () setting ${newInstance}`);
+        log.debug(`[useObserveChanges] observeInstance () setting ${JSON.stringify(newInstance, null, 2)}`);
         setInstance(newInstance);
     };
 
@@ -179,7 +179,7 @@ const useObserveChanges = (logLevelDesc: string | undefined) => {
             // Add or update the field with the new value
             [_field]: _value
         };
-        log.debug(`[useObserveChanges] observeFieldOf () setting ${newInstance}`);
+        log.debug(`[useObserveChanges] observeFieldOf () setting ${JSON.stringify(newInstance, null, 2)}`);
         setInstance(newInstance);
      };
 
@@ -223,7 +223,7 @@ const useObserveChanges = (logLevelDesc: string | undefined) => {
         }
         // remove the field from the instance
         delete newObject[_field];
-        log.debug(`[useObserveChanges] unobserveFieldOf () setting ${newObject}`);
+        log.debug(`[useObserveChanges] unobserveFieldOf () setting ${JSON.stringify(newObject, null, 2)}`);
         setInstance(newObject);
      };
 
