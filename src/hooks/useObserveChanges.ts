@@ -103,9 +103,15 @@ const useObserveChanges = (logLevelDesc: string | undefined) => {
       */
      const unobserveFieldOf = (_instance: string, _field: string) => {
         const oldInstance: { [key: string]: { [key: string]: {} } } = instance[_instance];
-        if (!oldInstance) throw new Error(`Instance ${_instance} not found, please create it first using observeInstance('nameOfYourInstance', {})`);
+        if (!oldInstance) {
+          log.warn(`Instance ${_instance} not found, please create it first using observeInstance('nameOfYourInstance', {})`);
+          return;
+        }
         const oldField = oldInstance[_field];
-        if (!oldField) throw new Error(`Field ${_field} not found in ${_instance}, please create it first using observeFieldOf('myThing', 'myField', e.target.value)`);
+        if (!oldField) {
+          log.warn(`Field ${_field} not found in ${_instance}, please create it first using observeFieldOf('myThing', 'myField', e.target.value)`);
+          return;
+        }
         const newObject = {
             // Spread operator to include all existing observed fields
             ...oldInstance,
