@@ -62,14 +62,13 @@ const useObserveChanges = (logLevelDesc: string | undefined) => {
       * observeFieldOf('myThing', 'myField', e.target.value);
       */
      const observeFieldOf = (_instance: string, _field:string, _value: any) => {
-        log.debug(`[useObserveChanges] observeFieldOf (${_instance}, ${_field}, ${_value}) called`);
          const newInstance = {
             // Spread operator to include all existing observed fields
             ...instance,
             // Add or update the field with the new value
             [_field]: _value
         };
-        log.debug(`[useObserveChanges] observeFieldOf () setting ${JSON.stringify(newInstance, null, 2)}`);
+        log.debug(`[useObserveChanges] observeFieldOf (${_instance}, ${_field}, ${_value}) setting ${JSON.stringify(newInstance, null, 2)}`);
         setInstance(newInstance);
      };
 
@@ -84,9 +83,9 @@ const useObserveChanges = (logLevelDesc: string | undefined) => {
       * getInstance('myThing');
       */
      const getInstance = (_instance: string): { [key: string]: { [key: string]: {} } } => {
-        log.debug(`[useObserveChanges] getInstance (${_instance}) called`);
         const current: { [key: string]: { [key: string]: {} } } = instance[_instance];
         if (!current) console.warn(`Instance ${_instance} not found, please create it first using observeFieldOf('nameOfYourInstance', 'fieldName', value)`);
+        log.debug(`[useObserveChanges] getInstance (${_instance}) => ${JSON.stringify(current, null, 2)}`);
         return current;
      };
 
@@ -102,7 +101,6 @@ const useObserveChanges = (logLevelDesc: string | undefined) => {
       * unobserveFieldOf('user', 'lastName');
       */
      const unobserveFieldOf = (_instance: string, _field: string) => {
-        log.debug(`[useObserveChanges] unobserveFieldOf (${_instance}, ${_field}) called`);
         const oldInstance: { [key: string]: { [key: string]: {} } } = instance[_instance];
         if (!oldInstance) throw new Error(`Instance ${_instance} not found, please create it first using observeInstance('nameOfYourInstance', {})`);
         const oldField = oldInstance[_field];
@@ -113,7 +111,7 @@ const useObserveChanges = (logLevelDesc: string | undefined) => {
         }
         // remove the field from the instance
         delete newObject[_field];
-        log.debug(`[useObserveChanges] unobserveFieldOf () setting ${JSON.stringify(newObject, null, 2)}`);
+        log.debug(`[useObserveChanges] unobserveFieldOf (${_instance}, ${_field}) setting ${JSON.stringify(newObject, null, 2)}`);
         setInstance(newObject);
      };
 
