@@ -84,7 +84,6 @@ const useObserveChanges = (logLevelDesc: string | undefined) => {
       */
      const getInstance = (_instance: string): { [key: string]: { [key: string]: {} } } => {
         const current: { [key: string]: { [key: string]: {} } } = instance[_instance];
-        if (!current) console.warn(`Instance ${_instance} not found, please create it first using observeFieldOf('nameOfYourInstance', 'fieldName', value)`);
         log.debug(`[useObserveChanges] getInstance (${_instance}) => ${JSON.stringify(current, null, 2)}`);
         return current;
      };
