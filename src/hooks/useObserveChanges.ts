@@ -62,11 +62,13 @@ const useObserveChanges = (logLevelDesc: string | undefined) => {
       * observeFieldOf('myThing', 'myField', e.target.value);
       */
      const observeFieldOf = (_instance: string, _field:string, _value: any) => {
-         const newInstance = {
-            // Spread operator to include all existing observed fields
-            ...instance,
-            // Add or update the field with the new value
-            [_field]: _value
+        const existingInstance = instance[_instance] || {}; // Recupera ou cria o objeto para a instância
+        const newInstance = {
+          ...instance, // Mantém outras instâncias intactas
+          [_instance]: {
+            ...existingInstance, // Mantém outros campos dessa instância
+            [_field]: _value, // Adiciona/atualiza o campo
+          },
         };
         log.debug(`[useObserveChanges] observeFieldOf (${_instance}, ${_field}, ${_value}) setting ${JSON.stringify(newInstance, null, 2)}`);
         setInstance(newInstance);
