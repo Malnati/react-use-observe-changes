@@ -89,7 +89,7 @@ const useObserveChanges = (logLevelDesc: string | undefined) => {
      const getInstance = (_instance: string): { [key: string]: { [key: string]: {} } } => {
         const current: { [key: string]: { [key: string]: {} } } = instance[_instance];
         log.debug(`[useObserveChanges] getInstance (${_instance}) => ${JSON.stringify(current, null, 2)}`);
-        return current;
+        return { ...current };
      };
 
      /**
