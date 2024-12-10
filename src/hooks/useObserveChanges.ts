@@ -11,35 +11,15 @@ import log, { LogLevelDesc } from 'loglevel';
  * and maintains a state with the observed values.
  * 
  * @returns An object containing:
- * - `fields`: The state of the observed fields.
- * - `observeField`: Function to observe changes in a field.
- * - `unobserveField`: Function to stop observing a field.
  * - `instance`: The state of the observed instance fields.
  * - `getInstance`: Function to retrieve an instance.
  * - `observeInstance`: Function to observe changes in an instance field.
  * - `observeFieldOf`: Function to observe changes in a field of an instance.
  * - `unobserveFieldOf`: Function to stop observing a field of an instance.
- * - `resetFields`: Function to reset the observed fields state.
  * - `resetInstance`: Function to reset the observed instance state.
- * - `resetAll`: Function to reset both fields and instance states.
  * 
  * @example
- * const { fields, observeField, instance, observeInstance, resetFields, resetInstance, resetAll } = useObserveChanges();
- * 
- * // Observe changes in a field
- * observeField('fieldName', 'on');
- * 
- * // Observe changes in a field with a specific value
- * observeField('fieldName', newValue);
- * 
- * // Access the state of the observed fields
- * console.log(fields);
- * 
- * // Stop observing a field
- * unobserveField('fieldName');
- * 
- * // Reset the observed fields state
- * resetFields();
+ * const { instance, observeInstance, resetInstance } = useObserveChanges();
  * 
  * // Observe changes in an instance field
  * observeInstance('instanceFieldName', 'on');
@@ -54,10 +34,7 @@ import log, { LogLevelDesc } from 'loglevel';
  * unobserveFieldOf('instanceName', 'fieldName');
  * 
  * // Reset the observed instance state
- * resetInstance();
- * 
- * // Reset both fields and instance states
- * resetAll();
+ * reset();
  */
 const useObserveChanges = (logLevelDesc: string | undefined) => {
 
@@ -65,20 +42,6 @@ const useObserveChanges = (logLevelDesc: string | undefined) => {
     // Set the log level from environment variable or default to 'info'
     const logLevel: string | undefined = ( logLevelDesc ) || 'info';
     log.setLevel(logLevel as LogLevelDesc);
-
-    /**
-     * State to hold the observed fields and their values.
-     * @author Ricardo Malnati
-     * 
-     * @example
-     * // Initial state
-     * const [fields, setFields] = useState<{ [key: string]: any }>({});
-     * 
-     * // After observing changes in a field
-     * observeField('fieldName', 'newValue');
-     * console.log(fields); // { fieldName: 'newValue' }
-     */
-    const [fields, setFields] = useState<{ [key: string]: any }>({});
 
     /**
      * State to hold the instance of the observed fields.
@@ -93,46 +56,6 @@ const useObserveChanges = (logLevelDesc: string | undefined) => {
      * console.log(instance); // { fieldName: {} }
      */
     const [instance, setInstance] = useState<{ [key: string]: { [key: string]: any } }>({});
-
-    /**
-     * Function to observe changes in a field.
-     * @author Ricardo Malnati
-     * 
-     * @param _key - The name of the field to be observed.
-     * @param _value - The value to be observed.
-     * 
-     * @example
-     * // Observe changes in a field with a specific value from an event
-     * observeField('lastName', e.target.value);
-     */
-    const observeField = (_key: string, _value: any) => {
-        log.debug(`[useObserveChanges] observeField (${_key}, ${_value}) called`);
-        const newObject = {
-            // Spread operator to include all existing observed fields
-            ...fields,
-            // Add or update the field with the new value
-            [_key]: _value
-        };
-        log.debug(`[useObserveChanges] observeField () setting ${JSON.stringify(newObject, null, 2)}`);
-        setFields(newObject);
-    };
-
-    /**
-     * Function to stop observing a field.
-     * @author Ricardo Malnati
-     * 
-     * @param _key - The name of the field to stop observing.
-     * 
-     * @example
-     * // Stop observing a field
-     * unobserveField('lastName');
-     */
-    const unobserveField = (_key: string) => {
-        log.debug(`[useObserveChanges] unobserveField (${_key}) called`);
-        delete fields[_key];
-        log.debug(`[useObserveChanges] unobserveField () setting ${JSON.stringify(fields, null, 2)}`);
-        setFields(fields);
-    };
 
    /**
      * Function to observe changes in an instance.
@@ -228,56 +151,24 @@ const useObserveChanges = (logLevelDesc: string | undefined) => {
      };
 
     /**
-     * Function to reset the observed fields state.
-     * @author Ricardo Malnati
-     * 
-     * @example
-     * // Reset the observed fields state
-     * resetFields();
-     */
-    const resetFields = () => {
-        log.debug(`[useObserveChanges] resetFields () called`);
-        setFields({});
-    };
-
-    /**
      * Function to reset the observed instance state.
      * @author Ricardo Malnati
      * 
      * @example
      * // Reset the observed instance state
-     * resetInstance();
+     * reset();
      */
-    const resetInstance = () => {
+    const reset = () => {
         log.debug(`[useObserveChanges] resetInstance () called`);
         setInstance({});
     };
-
-    /**
-     * Function to reset both fields and instance states.
-     * @author Ricardo Malnati
-     * 
-     * @example
-     * // Reset both fields and instance states
-     * resetAll();
-     */
-    const resetAll = () => {
-        log.debug(`[useObserveChanges] resetAll () called`);
-        resetFields();
-        resetInstance();
-    };
     
     return {
-        fields,
-        observeField,
-        unobserveField,
         getInstance,
         observeInstance,
         observeFieldOf,
         unobserveFieldOf,
-        resetFields,
-        resetInstance,
-        resetAll
+        reset,
     };
 };
 
