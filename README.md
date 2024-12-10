@@ -2,39 +2,43 @@
 
 [![npm version](https://badge.fury.io/js/react-use-observe-changes.svg)](https://www.npmjs.com/package/react-use-observe-changes)
 
-The useObserveChanges is a custom React hook that observes changes in specific fields and updates the observed state. It is useful for tracking and managing the state of multiple fields in a React component efficiently.
+The `useObserveChanges` is a custom React hook that observes changes in specific fields and updates the associated state. It is particularly useful for tracking and managing the state of multiple fields efficiently within a React component.
+
+---
 
 ## Installation
 
-It is needed to install `react-use-observe-changes` via npm:
-
+Install the package via npm:
 ```bash
 npm install react-use-observe-changes
 ```
 
-
 ## Usage
 
-To use `useObserveChanges`, simply import the hook into your component:
+To use `useObserveChanges`, import the hook into your component:
 
-*Basic Example*
+## Basic Example
 
 ```typescript
 import React from 'react';
 import useObserveChanges from 'react-use-observe-changes';
 
 const MyComponent = () => {
-    const { observedFields, observeIt } = useObserveChanges();
+    const { observeFieldOf, getInstance } = useObserveChanges();
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        observeIt(e.target.name, e.target.value);
+    const handleFirstnameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        observeFieldOf('person', 'firstName', e.target.value);
+    };
+
+    const handleLastnameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        observeFieldOf('person', 'lastName', e.target.value);
     };
 
     return (
         <div>
-            <input name="firstName" onChange={handleChange} />
-            <input name="lastName" onChange={handleChange} />
-            <pre>{JSON.stringify(observedFields, null, 2)}</pre>
+            <input name="firstName" onChange={handleFirstnameChange} placeholder="First Name" />
+            <input name="lastName" onChange={handleLastnameChange} placeholder="Last Name" />
+            <pre>{JSON.stringify(getInstance('person'), null, 2)}</pre>
         </div>
     );
 };
@@ -44,91 +48,61 @@ export default MyComponent;
 
 ## API
 
-`useObserveChanges`
+`useObserveChanges(logLevelDesc?: string)`
 
-`Hook` that observes changes in specific fields and updates the observed state.
+A hook that observes changes in specific fields and updates the associated state.
 
-*Returns*
+*Returns:*
+- *getInstance(_instance: string)*: object | undefined
+Retrieves the state of a registered instance.
+- *observeFieldOf(_instance: string, _field: string, _value: any)*: void
+Observes changes in a specific field of an instance.
+- *unobserveFieldOf(_instance: string, _field: string)*: void
+Stops observing a specific field of an instance.
+- *reset()*: void
+Resets the state of all observed instances.
 
-- `observedFields`: An object containing the state of the observed fields.
-- `observeIt`: A function to observe changes in a field.
+## Examples
 
-*Example*
-
-```typescript
-const { observedFields, observeIt } = useObserveChanges();
-
-// Observe changes in a field
-observeIt('fieldName', 'on');
-
-// Observe changes in a field with a specific value
-observeIt('fieldName', newValue);
-
-// Access the state of observed fields
-console.log(observedFields);
-```
-
-## Observations
-
-- The state is stored in memory and will persist as long as the component using this `hook` is mounted.
-- There is no explicit limit to the number of fields that can be observed, but excessive use may impact performance.
-- When the component unmounts, the state will be cleared.
-
-*Example*
-
-`observedFields`
+### Observing changes in a field
 
 ```typescript
-// Initial state
-const [observedFields, setObservedFields] = useState<{ [key: string]: any }>({});
+const { observeFieldOf, getInstance } = useObserveChanges();
 
-// After observing changes in a field
-observeIt('fieldName', 'newValue');
-console.log(observedFields); // { fieldName: 'newValue' }
+// Observe changes in a specific field
+observeFieldOf('user', 'name', 'John');
+
+// Retrieve the state of the instance
+console.log(getInstance('user')); // { name: 'John' }
 ```
 
-`observeIt`
-
-Function to observe changes in a field.
-
-*Parameters*
-
-- `key`: The name of the field to be observed.
-- `value`: The value to be observed. If it is 'on', the value will be toggled.
-
-*Example*
+### Removing an observed field
 
 ```typescript
-// Observe changes in a field with a specific value from an event
-observeIt('lastName', e.target.value);
+const { observeFieldOf, unobserveFieldOf, getInstance } = useObserveChanges();
+
+observeFieldOf('user', 'name', 'John');
+unobserveFieldOf('user', 'name');
+
+console.log(getInstance('user')); // {}
 ```
 
-*Code Explanation*
+### Resetting the state
 
 ```typescript
-const observeIt = (key: string, value: any) => {
-    if (value === 'on') {
-        value = !observedFields[key];
-    }
-    const newObject = {
-        // Spread operator to include all existing observed fields
-        ...observedFields,
-        // Add or update the field with the new value
-        [key]: value
-    };
-    setObservedFields(newObject);
-};
+const { observeFieldOf, reset, getInstance } = useObserveChanges();
+
+observeFieldOf('user', 'name', 'John');
+reset();
+
+console.log(getInstance('user')); // undefined
 ```
 
-1. *Spread Operator* (`...observedFields`):
-- *What happens*: The spread operator (...) is used to copy all properties from the `observedFields` object to the new `newObject`.
-- *For items not found*: If the key (`key`) is not present in `observedFields`, it will be added to the new `newObject` with the provided value (`value`).
-- *For items already there*: If the key (`key`) is already present in `observedFields`, the existing value will be overwritten by the new provided value (`value`).
-1. *Add or Update the Field* (`[key]: value`):
-- *What happens*: The key (`key`) is added or updated in the new `newObject` with the provided value (`value`).
-- *For items not found*: The key (`key`) will be added to the new `newObject` with the provided value (`value`).
-- *For items already there*: The key (`key`) in the new `newObject` will have its value updated to the new provided value (`value`).
+## Notes
+- The state is stored in memory and persists as long as the component using the hook is mounted.
+- The hook supports multiple instances and multiple fields per instance.
+- There is no explicit limit to the number of instances or fields, but excessive use may impact performance.
 
-*Conclusion*
+## Conclusion
 
-The `useObserveChanges` hook is a useful tool for observing and managing changes in specific fields within a *React* component. It provides a simple way to track the state of multiple fields and react to changes efficiently.
+The `useObserveChanges` hook provides a simple and efficient way to track changes in multiple fields within a React component. It is especially useful for dynamic forms and components requiring granular state tracking.

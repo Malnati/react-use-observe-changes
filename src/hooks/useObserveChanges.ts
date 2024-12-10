@@ -17,10 +17,13 @@ import log, { LogLevelDesc } from 'loglevel';
  * - `reset`: Function to reset the observed instance state.
  * 
  * @example
- * const { observeFieldOf, unobserveFieldOf, reset } = useObserveChanges();
+ * const { observeFieldOf, unobserveFieldOf, getInstance, reset } = useObserveChanges();
  * 
  * // to observe changes in an instance field.
  * observeFieldOf('instanceName', 'fieldName', value);
+ * 
+ * // to retrieve an instance by its name.
+ * getInstance('instanceName');
  * 
  * // Stop observing a field of an instance
  * unobserveFieldOf('instanceName', 'fieldName');
@@ -29,7 +32,6 @@ import log, { LogLevelDesc } from 'loglevel';
  * reset();
  */
 const useObserveChanges = (logLevelDesc: string | undefined) => {
-
 
     // Set the log level from environment variable or default to 'info'
     const logLevel: string | undefined = ( logLevelDesc ) || 'info';
