@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>React Use Config</title>
+    <title>useObserveChanges</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
@@ -87,65 +87,65 @@
 </head>
 <body>
     <header>
-        <h1>React Use Config</h1>
-        <p>Efficiently manage configuration parameters in React projects.</p>
+        <h1>useObserveChanges</h1>
+        <p>A custom React hook for observing and managing changes in specific fields.</p>
     </header>
     <main>
         <section>
-            <h2>What is React Use Config?</h2>
-            <p><strong>React Use Config</strong> provides the <code>useConfigParam</code> hook to retrieve configuration values with the following priority:</p>
-            <ol>
-                <li><strong>Query Parameters:</strong> Extracted directly from the URL.</li>
-                <li><strong>Environment Variables:</strong> With the prefix <code>REACT_APP_</code>.</li>
-                <li><strong>Default Values:</strong> Used when no other option is available.</li>
-            </ol>
-            <img src="https://raw.githubusercontent.com/Malnati/react-use-config/main/docs/Streamlining-React-Configurations.png" alt="Streamlining React Configurations">
+            <h2>Installation</h2>
+            <p>Install the package via npm:</p>
+            <pre><code>npm install react-use-observe-changes</code></pre>
         </section>
         <section>
-            <h2>Features</h2>
+            <h2>Usage</h2>
+            <p>To use <strong>useObserveChanges</strong>, import the hook into your component:</p>
+            <pre><code>
+import React from 'react';
+import useObserveChanges from 'react-use-observe-changes';
+
+const MyComponent = () => {
+    const { observeFieldOf, getInstance } = useObserveChanges();
+
+    const handleFirstnameChange = (e) => {
+        observeFieldOf('person', 'firstName', e.target.value);
+    };
+
+    const handleLastnameChange = (e) => {
+        observeFieldOf('person', 'lastName', e.target.value);
+    };
+
+    return (
+        <div>
+            <input name="firstName" onChange={handleFirstnameChange} placeholder="First Name" />
+            <input name="lastName" onChange={handleLastnameChange} placeholder="Last Name" />
+            <pre>{JSON.stringify(getInstance('person'), null, 2)}</pre>
+        </div>
+    );
+};
+
+export default MyComponent;
+            </code></pre>
+        </section>
+        <section>
+            <h2>API</h2>
+            <p>The `useObserveChanges` hook offers the following methods:</p>
             <ul>
-                <li>Retrieve parameters dynamically from multiple sources.</li>
-                <li>Automatic boolean conversion for <code>true</code> and <code>false</code>.</li>
-                <li>Customizable default values.</li>
-                <li>Lightweight and easy to integrate.</li>
+                <li><strong>getInstance(instance: string):</strong> Retrieves the state of a registered instance.</li>
+                <li><strong>observeFieldOf(instance: string, field: string, value: any):</strong> Observes changes in a specific field of an instance.</li>
+                <li><strong>unobserveFieldOf(instance: string, field: string):</strong> Stops observing a specific field of an instance.</li>
+                <li><strong>reset():</strong> Resets the state of all observed instances.</li>
             </ul>
-            <img src="https://raw.githubusercontent.com/Malnati/react-use-config/main/docs/Features-Enhancing-useConfigParam-Hook.png" alt="Features Enhancing useConfigParam Hook">
-        </section>
-        <section>
-            <h2>Configuration Retrieval Funnel</h2>
-            <p>The following diagram demonstrates the priority order for retrieving configuration values:</p>
-            <img src="https://raw.githubusercontent.com/Malnati/react-use-config/main/docs/Configuration-Value-Retrieval-Funnel.png" alt="Configuration Value Retrieval Funnel">
-        </section>
-        <section>
-            <h2>Getting Started</h2>
-            <p>Follow these steps to start using <strong>React Use Config</strong>:</p>
-            <ol>
-                <li><strong>Install the package:</strong></li>
-                <pre><code>npm install react-use-config</code></pre>
-                <li><strong>Import the hook in your project:</strong></li>
-                <pre><code>import useConfigParam from 'react-use-config';</code></pre>
-                <li><strong>Example usage:</strong></li>
-                <pre><code>
-const geoServer = useConfigParam('geoServer', 'http://localhost:8080/geoserver');
-console.log(geoServer); // Output based on priority
-                </code></pre>
-            </ol>
         </section>
         <section class="community-message">
-            <p>🚀 Built with ❤️ by <strong>Ricardo Malnati</strong> and the amazing open-source community!</p>
-            <p>This project is free and open-source under the <a href="https://github.com/Malnati/react-use-config/blob/main/LICENSE" target="_blank">MIT License</a>. Contributions are always welcome!</p>
-        </section>
-        <section>
-            <h2>Contribute</h2>
-            <p>We welcome contributions! Open an issue or submit a pull request on the <a href="https://github.com/Malnati/react-use-config" target="_blank">GitHub Repository</a>.</p>
+            <p>🚀 Built with ❤️ by the open-source community! Contributions are welcome.</p>
         </section>
         <section>
             <h2>Learn More</h2>
-            <p>For more details, visit the <a href="https://github.com/Malnati/react-use-config" target="_blank">GitHub Repository</a>.</p>
+            <p>For detailed usage examples, visit the <a href="https://github.com/Malnati/react-use-observe-changes" target="_blank">GitHub Repository</a>.</p>
         </section>
     </main>
     <footer>
-        <p>&copy; 2024 React Use Config | Built with <a href="https://pages.github.com/" target="_blank">GitHub Pages</a> using the <a href="https://pages-themes.github.io/cayman/" target="_blank">Cayman Theme</a>.</p>
+        <p>&copy; 2024 useObserveChanges | Built with <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>.</p>
     </footer>
 </body>
 </html>
