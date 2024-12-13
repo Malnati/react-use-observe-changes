@@ -52,6 +52,11 @@
             font-size: 0.9rem;
             line-height: 1.4;
         }
+        img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
         footer {
             text-align: center;
             padding: 1rem 0;
@@ -62,18 +67,6 @@
         footer a {
             color: #ffdd57;
             text-decoration: none;
-        }
-        img {
-            max-width: 100%;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-        }
-        a {
-            color: #005d8f;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
         }
         .community-message {
             text-align: center;
@@ -94,6 +87,7 @@
         <section>
             <h2>What is useObserveChanges?</h2>
             <p>The <strong>useObserveChanges</strong> hook is a custom React hook designed to observe and manage changes in specific fields across multiple instances. It is particularly useful for tracking dynamic states, such as form inputs, without the need for repetitive state handling.</p>
+            <img src="https://raw.githubusercontent.com/Malnati/react-use-observe-changes/main/docs/3-useObserveChanges-What-is.jpeg" alt="What is useObserveChanges">
         </section>
         <section>
             <h2>Core Features</h2>
@@ -103,73 +97,11 @@
                 <li><strong>Granular Control:</strong> Provides methods to stop observing a specific field or reset the entire state for all instances.</li>
                 <li><strong>Lightweight:</strong> Optimized for performance and supports observing multiple instances and fields simultaneously without significant overhead.</li>
             </ol>
+            <img src="https://raw.githubusercontent.com/Malnati/react-use-observe-changes/main/docs/4-useObserveChanges-Core-Features.jpeg" alt="Core Features of useObserveChanges">
         </section>
         <section>
             <h2>How does it work?</h2>
-            <ol>
-                <li><strong>observeFieldOf(instance, field, value):</strong> Updates the value of a specific field within an instance. If the instance or field doesn’t exist, it creates them dynamically.
-                <pre><code>observeFieldOf('user', 'name', 'Alice');</code></pre></li>
-                <li><strong>getInstance(instance):</strong> Retrieves the entire state of a specified instance. If the instance doesn’t exist, it returns undefined.
-                <pre><code>
-const userState = getInstance('user');
-console.log(userState); // { name: 'Alice' }
-                </code></pre></li>
-                <li><strong>unobserveFieldOf(instance, field):</strong> Stops observing a specific field within an instance, effectively removing it from the state.
-                <pre><code>
-unobserveFieldOf('user', 'name');
-console.log(getInstance('user')); // {}
-                </code></pre></li>
-                <li><strong>reset():</strong> Clears all observed instances and fields, resetting the state to an empty object.
-                <pre><code>
-reset();
-console.log(getInstance('user')); // undefined
-                </code></pre></li>
-            </ol>
-        </section>
-        <section>
-            <h2>What is useObserveChanges?</h2>
-            <p>The <code>useObserveChanges</code> hook is designed to observe and manage changes in specific fields across multiple instances. It is particularly useful for tracking dynamic states, such as form inputs, without repetitive state handling.</p>
-            <h3>Core Features</h3>
-            <ul>
-                <li><strong>Instance-based State Management:</strong> Organizes and tracks state for different entities (e.g., forms, users).</li>
-                <li><strong>Field-level Observing:</strong> Observes and updates specific fields dynamically.</li>
-                <li><strong>Granular Control:</strong> Provides methods to stop observing or reset fields as needed.</li>
-                <li><strong>Lightweight:</strong> Supports multiple instances and fields without significant overhead.</li>
-            </ul>
-        </section>
-        <section>
-            <h2>Use Cases</h2>
-            <ul>
-                <li><strong>Dynamic Forms:</strong> Track multiple input fields in a form dynamically and retrieve the state when needed (e.g., on submission).</li>
-                <li><strong>Multi-instance State Tracking:</strong> Manage states for multiple components or contexts independently.</li>
-                <li><strong>Granular Updates:</strong> Update only specific fields of an instance without affecting others.</li>
-                <li><strong>Resetting States:</strong> Clear all observed data when a component is unmounted or reset a form to its initial state.</li>
-            </ul>
-        </section>
-        <section>
-            <h2>Example Workflow</h2>
-            <h3>Observing Fields</h3>
-            <pre><code>
-const { observeFieldOf, getInstance } = useObserveChanges();
-
-observeFieldOf('user', 'name', 'John');
-observeFieldOf('user', 'email', 'john@example.com');
-
-console.log(getInstance('user'));
-// Output: { name: 'John', email: 'john@example.com' }
-            </code></pre>
-            <h3>Removing a Field</h3>
-            <pre><code>
-unobserveFieldOf('user', 'name');
-console.log(getInstance('user'));
-// Output: { email: 'john@example.com' }
-            </code></pre>
-            <h3>Resetting All States</h3>
-            <pre><code>
-reset();
-console.log(getInstance('user'));
-// Output: undefined
-            </code></pre>
+            <img src="https://raw.githubusercontent.com/Malnati/react-use-observe-changes/main/docs/2-useObserveChanges-Usage.png" alt="How to Use useObserveChanges">
         </section>
         <section class="community-message">
             <p>🚀 Built with ❤️ by the open-source community! Contributions are welcome.</p>
