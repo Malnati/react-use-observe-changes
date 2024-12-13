@@ -1,0 +1,151 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>useObserveChanges</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #333;
+        }
+        header {
+            background: #005d8f;
+            color: #ffffff;
+            padding: 1.5rem 0;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+        header p {
+            margin: 0.5rem 0 0;
+            font-size: 1.2rem;
+        }
+        main {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        section {
+            margin-bottom: 2rem;
+        }
+        section h2 {
+            color: #005d8f;
+            border-bottom: 2px solid #005d8f;
+            padding-bottom: 0.5rem;
+        }
+        ul, ol {
+            padding-left: 1.5rem;
+        }
+        pre {
+            background: #f8f9fa;
+            border-left: 4px solid #005d8f;
+            padding: 0.5rem;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        footer {
+            text-align: center;
+            padding: 1rem 0;
+            background: #005d8f;
+            color: #ffffff;
+            margin-top: 2rem;
+        }
+        footer a {
+            color: #ffdd57;
+            text-decoration: none;
+        }
+        img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        a {
+            color: #005d8f;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .community-message {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>useObserveChanges</h1>
+        <p>A custom React hook for observing and managing changes in specific fields.</p>
+    </header>
+    <main>
+        <section>
+            <h2>Installation</h2>
+            <p>Install the package via npm:</p>
+            <pre><code>npm install react-use-observe-changes</code></pre>
+        </section>
+        <section>
+            <h2>Usage</h2>
+            <p>To use <strong>useObserveChanges</strong>, import the hook into your component:</p>
+            <pre><code>
+import React from 'react';
+import useObserveChanges from 'react-use-observe-changes';
+
+const MyComponent = () => {
+    const { observeFieldOf, getInstance } = useObserveChanges();
+
+    const handleFirstnameChange = (e) => {
+        observeFieldOf('person', 'firstName', e.target.value);
+    };
+
+    const handleLastnameChange = (e) => {
+        observeFieldOf('person', 'lastName', e.target.value);
+    };
+
+    return (
+        <div>
+            <input name="firstName" onChange={handleFirstnameChange} placeholder="First Name" />
+            <input name="lastName" onChange={handleLastnameChange} placeholder="Last Name" />
+            <pre>{JSON.stringify(getInstance('person'), null, 2)}</pre>
+        </div>
+    );
+};
+
+export default MyComponent;
+            </code></pre>
+        </section>
+        <section>
+            <h2>API</h2>
+            <p>The `useObserveChanges` hook offers the following methods:</p>
+            <ul>
+                <li><strong>getInstance(instance: string):</strong> Retrieves the state of a registered instance.</li>
+                <li><strong>observeFieldOf(instance: string, field: string, value: any):</strong> Observes changes in a specific field of an instance.</li>
+                <li><strong>unobserveFieldOf(instance: string, field: string):</strong> Stops observing a specific field of an instance.</li>
+                <li><strong>reset():</strong> Resets the state of all observed instances.</li>
+            </ul>
+        </section>
+        <section class="community-message">
+            <p>🚀 Built with ❤️ by the open-source community! Contributions are welcome.</p>
+        </section>
+        <section>
+            <h2>Learn More</h2>
+            <p>For detailed usage examples, visit the <a href="https://github.com/Malnati/react-use-observe-changes" target="_blank">GitHub Repository</a>.</p>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 useObserveChanges | Built with <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>.</p>
+    </footer>
+</body>
+</html>

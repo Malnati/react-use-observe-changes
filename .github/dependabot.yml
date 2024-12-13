@@ -1,0 +1,21 @@
+# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+# Please see the documentation for all configuration options:
+# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+updates:
+  # Monitoramento de dependências de produção e desenvolvimento
+  - package-ecosystem: "npm" 
+    directory: "/" # Location of package manifests
+    schedule:
+      interval: "weekly"
+    ignore:
+      - dependency-name: "@Malnati/*"
+  # Monitoramento para GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/" # Diretório para ações do GitHub
+    schedule:
+      interval: "weekly" # Verificar atualizações semanalmente
+    ignore:
+      - dependency-name: "@Malnati/*"
