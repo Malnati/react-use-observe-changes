@@ -124,11 +124,11 @@ console.log(getInstance('user')); // undefined
 
 ### What is useObserveChanges?
 
-![What is useObserveChanges](https://raw.githubusercontent.com/Malnati/react-use-observe-changes/main/docs/3-useObserveChanges-What-is.jpeg)
+![What is useObserveChanges](https://raw.githubusercontent.com/Malnati/react-use-observe-changes/main/docs/3-useObserveChanges-What-is.png)
 
 ### Core Features
 
-![Core Features](https://raw.githubusercontent.com/Malnati/react-use-observe-changes/main/docs/4-useObserveChanges-Core-Features.jpeg)
+![Core Features](https://raw.githubusercontent.com/Malnati/react-use-observe-changes/main/docs/4-useObserveChanges-Core-Features.png)
 
 ### How to Use
 
