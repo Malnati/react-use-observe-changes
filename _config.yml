@@ -1,0 +1,3 @@
+title: useConfig
+description: "Provides a hook called useConfigParam to retrieve configuration parameters with priority: URL query, environment variables, and default value. It simplifies configuration management, enabling flexibility and adaptability across different environments and scenarios."
+theme: jekyll-theme-cayman
