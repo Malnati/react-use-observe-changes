@@ -92,39 +92,39 @@
     </header>
     <main>
         <section>
-            <h2>Installation</h2>
-            <p>Install the package via npm:</p>
-            <pre><code>npm install react-use-observe-changes</code></pre>
+            <h2>What is useObserveChanges?</h2>
+            <p>The <strong>useObserveChanges</strong> hook is a custom React hook designed to observe and manage changes in specific fields across multiple instances. It is particularly useful for tracking dynamic states, such as form inputs, without the need for repetitive state handling.</p>
         </section>
         <section>
-            <h2>Usage</h2>
-            <p>To use <strong>useObserveChanges</strong>, import the hook into your component:</p>
-            <pre><code>
-import React from 'react';
-import useObserveChanges from 'react-use-observe-changes';
-
-const MyComponent = () => {
-    const { observeFieldOf, getInstance } = useObserveChanges();
-
-    const handleFirstnameChange = (e) => {
-        observeFieldOf('person', 'firstName', e.target.value);
-    };
-
-    const handleLastnameChange = (e) => {
-        observeFieldOf('person', 'lastName', e.target.value);
-    };
-
-    return (
-        <div>
-            <input name="firstName" onChange={handleFirstnameChange} placeholder="First Name" />
-            <input name="lastName" onChange={handleLastnameChange} placeholder="Last Name" />
-            <pre>{JSON.stringify(getInstance('person'), null, 2)}</pre>
-        </div>
-    );
-};
-
-export default MyComponent;
-            </code></pre>
+            <h2>Core Features</h2>
+            <ol>
+                <li><strong>Instance-based State Management:</strong> Fields are grouped under "instances," allowing you to organize and track state for different components or entities (e.g., user, form, settings).</li>
+                <li><strong>Field-level Observing:</strong> You can observe specific fields within an instance, such as <code>firstName</code> or <code>email</code>, and update their values. Supports dynamic forms or components with multiple inputs.</li>
+                <li><strong>Granular Control:</strong> Provides methods to stop observing a specific field or reset the entire state for all instances.</li>
+                <li><strong>Lightweight:</strong> Optimized for performance and supports observing multiple instances and fields simultaneously without significant overhead.</li>
+            </ol>
+        </section>
+        <section>
+            <h2>How does it work?</h2>
+            <ol>
+                <li><strong>observeFieldOf(instance, field, value):</strong> Updates the value of a specific field within an instance. If the instance or field doesn’t exist, it creates them dynamically.
+                <pre><code>observeFieldOf('user', 'name', 'Alice');</code></pre></li>
+                <li><strong>getInstance(instance):</strong> Retrieves the entire state of a specified instance. If the instance doesn’t exist, it returns undefined.
+                <pre><code>
+const userState = getInstance('user');
+console.log(userState); // { name: 'Alice' }
+                </code></pre></li>
+                <li><strong>unobserveFieldOf(instance, field):</strong> Stops observing a specific field within an instance, effectively removing it from the state.
+                <pre><code>
+unobserveFieldOf('user', 'name');
+console.log(getInstance('user')); // {}
+                </code></pre></li>
+                <li><strong>reset():</strong> Clears all observed instances and fields, resetting the state to an empty object.
+                <pre><code>
+reset();
+console.log(getInstance('user')); // undefined
+                </code></pre></li>
+            </ol>
         </section>
         <section>
             <h2>What is useObserveChanges?</h2>
@@ -138,14 +138,38 @@ export default MyComponent;
             </ul>
         </section>
         <section>
-            <h2>API</h2>
-            <p>The `useObserveChanges` hook offers the following methods:</p>
+            <h2>Use Cases</h2>
             <ul>
-                <li><strong>getInstance(instance: string):</strong> Retrieves the state of a registered instance.</li>
-                <li><strong>observeFieldOf(instance: string, field: string, value: any):</strong> Observes changes in a specific field of an instance.</li>
-                <li><strong>unobserveFieldOf(instance: string, field: string):</strong> Stops observing a specific field of an instance.</li>
-                <li><strong>reset():</strong> Resets the state of all observed instances.</li>
+                <li><strong>Dynamic Forms:</strong> Track multiple input fields in a form dynamically and retrieve the state when needed (e.g., on submission).</li>
+                <li><strong>Multi-instance State Tracking:</strong> Manage states for multiple components or contexts independently.</li>
+                <li><strong>Granular Updates:</strong> Update only specific fields of an instance without affecting others.</li>
+                <li><strong>Resetting States:</strong> Clear all observed data when a component is unmounted or reset a form to its initial state.</li>
             </ul>
+        </section>
+        <section>
+            <h2>Example Workflow</h2>
+            <h3>Observing Fields</h3>
+            <pre><code>
+const { observeFieldOf, getInstance } = useObserveChanges();
+
+observeFieldOf('user', 'name', 'John');
+observeFieldOf('user', 'email', 'john@example.com');
+
+console.log(getInstance('user'));
+// Output: { name: 'John', email: 'john@example.com' }
+            </code></pre>
+            <h3>Removing a Field</h3>
+            <pre><code>
+unobserveFieldOf('user', 'name');
+console.log(getInstance('user'));
+// Output: { email: 'john@example.com' }
+            </code></pre>
+            <h3>Resetting All States</h3>
+            <pre><code>
+reset();
+console.log(getInstance('user'));
+// Output: undefined
+            </code></pre>
         </section>
         <section class="community-message">
             <p>🚀 Built with ❤️ by the open-source community! Contributions are welcome.</p>
