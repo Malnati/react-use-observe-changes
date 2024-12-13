@@ -32,8 +32,8 @@
     "license": "MIT",
     "dependencies": {
         "loglevel": "^1.9.2",
-        "react": "^18.3.0",
-        "react-dom": "^18.3.0"
+        "react": "^19.0.0",
+        "react-dom": "^19.0.0"
     },
     "devDependencies": {
         "@testing-library/dom": "^10.4.0",
@@ -41,7 +41,7 @@
         "@testing-library/react": "^16.1.0",
         "@types/jest": "^29.5.14",
         "@types/node": "^20.10.7",
-        "@types/react": "^18.3.3",
+        "@types/react": "^19.0.1",
         "@types/react-dom": "^18.3.0",
         "@typescript-eslint/eslint-plugin": "^5.62.0",
         "@typescript-eslint/parser": "^5.62.0",
